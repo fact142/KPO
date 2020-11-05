@@ -1,5 +1,5 @@
 const Pool = require('pg').Pool;
-const { connection } = require('../config')
+const { connection } = require('../configs/config')
 
 const pool = new Pool(connection);
 const queryString ={
