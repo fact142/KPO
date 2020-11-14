@@ -11,6 +11,10 @@ const homeRoutes = require('./routers/homeRouter')
 const addRoutes = require('./routers/addRouter')
 const playlistsRoutes = require('./routers/playlistsRouter')
 const accountsRoutes = require('./routers/accountRouter')
+const albumRouter = require('./routers/albumRouter')
+const songRouter = require('./routers/songRouter')
+const userRouter = require('./routers/userRouter')
+const playlistRouter = require('./routers/playlistRouter')
 
 const app = express();
 app.use(express.json());
@@ -25,6 +29,11 @@ app.set('views', 'views')
 
 app.use('/', homeRoutes)
 app.use('/singer', singerRouter)
+app.use('/album', albumRouter)
+app.use('/song', songRouter)
+app.use('/user', userRouter)
+app.use('/playlist', playlistRouter)
+
 app.use('/auth', authRoutes)
 app.use('/playlists', playlistsRoutes)
 app.use('/add', addRoutes)

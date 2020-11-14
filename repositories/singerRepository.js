@@ -9,12 +9,16 @@ const queryString ={
     select: `SELECT "id_singer", "name", "description" 
             FROM "singer"
             WHERE "id_singer" = $1`,
+    selectByName: `SELECT "id_singer", "name", "description" 
+                  FROM "singer"
+                  WHERE "name" = $1`,
     insert: `INSERT INTO "singer"("name", "description")
             VALUES($1, $2)
             RETURNING "id_singer", "name", "description"`,
     update: `UPDATE "singer"
             SET "name" = $1, "description" = $2
-            WHERE "id_singer" = $3`,
+            WHERE "id_singer" = $3
+            RETURNING "id_singer", "name", "description"`,
     delete: `DELETE FROM "singer"
             WHERE "id_singer" = $1
             RETURNING "id_singer", "name", "description"`
@@ -65,4 +69,17 @@ const remove = async (id_singer) => {
     return query.rows[0];
 }
 
-module.exports = { getAll, get, post, put, remove }
+const getByName = async (singerName) => {
+    const query = await pool.query(
+        queryString.selectByName,
+        [singerName]);
+
+    if (query.rows.length < 1){
+        return null;
+    }
+    return query.rows[0];
+}
+
+
+
+module.exports = { getAll, get, post, put, remove, getByName }
