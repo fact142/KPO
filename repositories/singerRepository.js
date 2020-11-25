@@ -3,25 +3,25 @@ const { connection } = require('../configs/config')
 
 const pool = new Pool(connection);
 const queryString ={
-    selectAll: `SELECT "id_singer", "name", "description" 
+    selectAll: `SELECT "id_singer", "singer_name", "singer_description" 
                 FROM "singer"
                 ORDER BY "id_singer"`, 
-    select: `SELECT "id_singer", "name", "description" 
+    select: `SELECT "id_singer", "singer_name", "singer_description" 
             FROM "singer"
             WHERE "id_singer" = $1`,
-    selectByName: `SELECT "id_singer", "name", "description" 
+    selectByName: `SELECT "id_singer", "singer_name", "singer_description" 
                   FROM "singer"
-                  WHERE "name" = $1`,
-    insert: `INSERT INTO "singer"("name", "description")
+                  WHERE "singer_name" = $1`,
+    insert: `INSERT INTO "singer"("singer_name", "singer_description")
             VALUES($1, $2)
-            RETURNING "id_singer", "name", "description"`,
+            RETURNING "id_singer", "singer_name", "singer_description"`,
     update: `UPDATE "singer"
-            SET "name" = $1, "description" = $2
+            SET "singer_name" = $1, "singer_description" = $2
             WHERE "id_singer" = $3
-            RETURNING "id_singer", "name", "description"`,
+            RETURNING "id_singer", "singer_name", "singer_description"`,
     delete: `DELETE FROM "singer"
             WHERE "id_singer" = $1
-            RETURNING "id_singer", "name", "description"`
+            RETURNING "id_singer", "singer_name", "singer_description"`
 }
 
 const getAll = async () => {
@@ -42,7 +42,7 @@ const get = async (id_singer) => {
 const post = async (singer) => {
     const query = await pool.query(
         queryString.insert,
-        [singer.name, singer.description]); 
+        [singer.singer_name, singer.singer_description]); 
     if (query.rows.length < 1){
         return null;
     }
@@ -52,7 +52,7 @@ const post = async (singer) => {
 const put = async (id_singer, singer) => {
     const query = await pool.query(
         queryString.update,
-        [singer.name, singer.description, id_singer]);
+        [singer.singer_name, singer.singer_description, id_singer]);
     if(query.rows.length < 1){
         return null;
     }

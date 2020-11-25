@@ -3,25 +3,25 @@ const { connection } = require('../configs/config')
 
 const pool = new Pool(connection);
 const queryString ={
-    selectAll: `SELECT "id_user", "name"
+    selectAll: `SELECT "id_user", "user_name"
                 FROM "user"
                 ORDER BY "id_user"`, 
-    select: `SELECT "id_user", "name"
+    select: `SELECT "id_user", "user_name"
             FROM "user"
             WHERE "id_user" = $1`,
-    selectByName: `SELECT "id_user", "name"
+    selectByName: `SELECT "id_user", "user_name"
                   FROM "user"
-                  WHERE "name" = $1`,
-    insert: `INSERT INTO "user"("name")
+                  WHERE "user_name" = $1`,
+    insert: `INSERT INTO "user"("user_name")
             VALUES($1)
-            RETURNING "id_user", "name"`,
+            RETURNING "id_user", "user_name"`,
     update: `UPDATE "user"
-            SET "name" = $1
+            SET "user_name" = $1
             WHERE "id_user" = $2
-            RETURNING "id_user", "name"`,
+            RETURNING "id_user", "user_name"`,
     delete: `DELETE FROM "user"
             WHERE "id_user" = $1
-            RETURNING "id_user", "name"`
+            RETURNING "id_user", "user_name"`
 }
 
 const getAll = async () => {
@@ -42,7 +42,7 @@ const get = async (id_user) => {
 const post = async (user) => {
     const query = await pool.query(
         queryString.insert,
-        [user.name]); 
+        [user.user_name]); 
     if (query.rows.length < 1){
         return null;
     }
@@ -52,7 +52,7 @@ const post = async (user) => {
 const put = async (id_user, user) => {
     const query = await pool.query(
         queryString.update,
-        [user.name, id_user]);
+        [user.user_name, id_user]);
     if(query.rows.length < 1){
         return null;
     }

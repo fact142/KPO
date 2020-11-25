@@ -7,14 +7,7 @@ songRouter.route('/')
     .get(async (req, res) => {
         try {
             let songs = await songRepository.getAll()
-            let newSongs = []
-            for(let i = 0; i < songs.length; i++) {
-                let song = songs[i]
-                const album = await albumRepository.get(song.id_album)
-                song.id_album = album
-                newSongs.push(song)
-            }
-            res.send(newSongs)
+            res.send(songs)
         }
         catch (err){
             console.log(err)
@@ -25,7 +18,7 @@ songRouter.route('/')
         try{
             const song = {
                 id_album: req.body.id_album,
-                title: req.body.title, 
+                song_title: req.body.song_title, 
                 duration : req.body.duration
             }
             res.send(await songRepository.post(song))
@@ -53,7 +46,7 @@ songRouter.route('/:id')
         try{
             const id = parseInt(req.params.id)
             const song = {
-                title: req.body.title,
+                song_title: req.body.song_title,
                 duration: req.body.duration
             }
             res.send(await songRepository.put(id, song))

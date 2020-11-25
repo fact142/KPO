@@ -25,7 +25,7 @@ playlistRouter.route('/')
         try{
             const playlist = {
                 id_user: req.body.id_user,
-                title: req.body.title, 
+                playlist_title: req.body.playlist_title, 
             }
             res.send(await playlistRepository.post(playlist))
         }
@@ -52,7 +52,7 @@ playlistRouter.route('/:id')
         try{
             const id = parseInt(req.params.id)
             const playlist = {
-                title: req.body.title
+                playlist_title: req.body.playlist_title
             }
             res.send(await playlistRepository.put(id, playlist))
         }

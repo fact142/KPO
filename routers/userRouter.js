@@ -15,7 +15,7 @@ userRouter.route('/')
     .post(async (req, res) => {
         try{
             const user = {
-                name: req.body.name, 
+                user_name: req.body.user_name, 
             }
             res.send(await userRepository.post(user))
         }
@@ -39,7 +39,7 @@ userRouter.route('/:id')
         try{
             const id = parseInt(req.params.id)
             const user = {
-                name: req.body.name,
+                user_name: req.body.user_name,
             }
             res.send(await userRepository.put(id, user))
         }

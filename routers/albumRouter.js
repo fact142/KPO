@@ -7,10 +7,13 @@ albumRouter.route('/')
     .get(async (req, res) => {
         try {
             let albums = await albumRepository.getAll()
-            for(let i = 0; i < albums.length; i++) {
-                let album = albums[i]
-                const singer = await singerRepository.get(album.id_singer)
-                album.singer = singer
+            for (let album of albums){
+                 album.singer = {"id_singer": album.id_singer, 
+                                 "singer_name": album.singer_name, 
+                                "singer_description": album.singer_description}
+                delete album.id_singer
+                delete album.singer_name
+                delete album.singer_description
             }
             res.send(albums)
         }
@@ -23,8 +26,8 @@ albumRouter.route('/')
         try{
             const album = {
                 id_singer: req.body.id_singer,
-                title: req.body.title, 
-                description : req.body.description
+                album_title: req.body.album_title, 
+                album_description : req.body.album_description
             }
             res.send(await albumRepository.post(album))
         }
@@ -38,8 +41,12 @@ albumRouter.route('/:id')
         try{
             const id = parseInt(req.params.id);
             let album = await albumRepository.get(id)
-            const singer = await singerRepository.get(parseInt(album.id_singer))
-            album.id_singer = singer;
+            album.singer = {"id_singer": album.id_singer, 
+                                 "singer_name": album.singer_name, 
+                                "singer_description": album.singer_description}
+            delete album.id_singer
+            delete album.singer_name
+            delete album.singer_description
             res.send(album);
         }
         catch (err){
@@ -51,8 +58,8 @@ albumRouter.route('/:id')
         try{
             const id = parseInt(req.params.id)
             const album = {
-                title: req.body.title,
-                description: req.body.description
+                album_title: req.body.album_title,
+                album_description: req.body.album_description
             }
             res.send(await albumRepository.put(id, album))
         }

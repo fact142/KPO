@@ -3,22 +3,23 @@ const { connection } = require('../configs/config')
 
 const pool = new Pool(connection);  
 const queryString ={
-    selectAll: `SELECT "id_playlist", "id_user", "title"
+    selectAll: `SELECT "id_playlist", "id_user", "playlist_title"
                 FROM "playlist"
                 ORDER BY "id_playlist"`, 
-    select: `SELECT "id_playlist", "id_user", "title"
+    select: `SELECT "id_playlist", "id_user", "playlist_title"
             FROM "playlist"
             WHERE "id_playlist" = $1`,
-    insert: `INSERT INTO "playlist"("id_user", "title")
+    insert: `INSERT INTO "playlist"("id_user", "playlist_title")
             VALUES($1, $2)
-            RETURNING "id_playlist", "id_user", "title"`,
+            RETURNING "id_playlist", "id_user", "playlist_title"`,
     update: `UPDATE "playlist"
-            SET "title" = $1
+            SET "playlist_title" = $1
             WHERE "id_playlist" = $2
-            RETURNING "id_playlist", "id_user", "title"`,
+            RETURNING "id_playlist", "id_user", "playlist_title"`,
     delete: `DELETE FROM "playlist"
             WHERE "id_playlist" = $1
-            RETURNING "id_playlist", "id_user", "title"`
+            RETURNING "id_playlist", "id_user", "playlist_title"`
+
 }
 
 const getAll = async () => {
@@ -39,7 +40,7 @@ const get = async (id_playlist) => {
 const post = async (playlist) => {
     const query = await pool.query(
         queryString.insert,
-        [playlist.id_user, playlist.title]); 
+        [playlist.id_user, playlist.playlist_title]); 
     if (query.rows.length < 1){
         return null;
     }
@@ -49,7 +50,7 @@ const post = async (playlist) => {
 const put = async (id_playlist, playlist) => {
     const query = await pool.query(
         queryString.update,
-        [playlist.title, id_playlist]);
+        [playlist.playlist_title, id_playlist]);
     if(query.rows.length < 1){
         return null;
     }
