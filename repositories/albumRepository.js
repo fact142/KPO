@@ -2,7 +2,7 @@ const Pool = require('pg').Pool;
 const { connection } = require('../configs/config')
 
 const pool = new Pool(connection);  
-const queryString ={
+const queryString = {
     selectAll: `SELECT *
                 FROM singer 
                 INNER JOIN album 
@@ -16,7 +16,7 @@ const queryString ={
             VALUES($1, $2, $3)
             RETURNING "id_album", "id_singer", "album_title", "album_description"`,
     update: `UPDATE "album"
-            SET "title" = $1, "album_description" = $2
+            SET "album_title" = $1, "album_description" = $2
             WHERE "id_album" = $3
             RETURNING "id_album", "id_singer", "album_title", "album_description"`,
     delete: `DELETE FROM "album"

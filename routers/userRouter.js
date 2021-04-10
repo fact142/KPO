@@ -16,6 +16,8 @@ userRouter.route('/')
         try{
             const user = {
                 user_name: req.body.user_name, 
+                user_password: req.body.user_password, 
+                user_email: req.body.user_email
             }
             res.send(await userRepository.post(user))
         }
@@ -40,6 +42,8 @@ userRouter.route('/:id')
             const id = parseInt(req.params.id)
             const user = {
                 user_name: req.body.user_name,
+                user_password: req.body.user_password,
+                user_email: req.body.user_email
             }
             res.send(await userRepository.put(id, user))
         }

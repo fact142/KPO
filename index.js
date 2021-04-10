@@ -1,35 +1,30 @@
-const express = require('express');
-const session = require('express-session');
-const expressHandlebars = require('express-handlebars');
+const express = require('express')
+const cors = require('cors')
 
-const { port } = require('./configs/config');
-const sessionConfig = require('./configs/sessionConfig');
+const { port } = require('./configs/config')
 
-const singerRouter = require('./routers/singerRouter');
+const homeRouter = require('./routers/homeRouter')
+const singerRouter = require('./routers/singerRouter')
 const albumRouter = require('./routers/albumRouter')
 const songRouter = require('./routers/songRouter')
 const userRouter = require('./routers/userRouter')
 const playlistRouter = require('./routers/playlistRouter')
 const playlistsongRouter = require('./routers/playlistsongRouter')
+const authRouter = require('./routers/authRouter')
 
-const app = express();
-app.use(express.json());
+const app = express()   
+app.use(cors());
+app.use(express.json())
 
-const hbs = expressHandlebars.create({
-    defaultLayout: 'main',
-    extname: 'hbs'
-})
-app.engine('hbs', hbs.engine)
-app.set('view engine', 'hbs')
-app.set('views', 'views')
-
-
+app.use('/home', homeRouter)
+app.use('/auth', authRouter)
 app.use('/singer', singerRouter)
 app.use('/album', albumRouter)
 app.use('/song', songRouter)
 app.use('/user', userRouter)
 app.use('/playlist', playlistRouter)
 app.use('/playlistsong', playlistsongRouter)
+
 
 
 app.listen(port, () => console.log(`App listening on http://localhost:${port} !`));

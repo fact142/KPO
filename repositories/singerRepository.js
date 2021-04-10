@@ -2,7 +2,7 @@ const Pool = require('pg').Pool;
 const { connection } = require('../configs/config')
 
 const pool = new Pool(connection);
-const queryString ={
+const queryString = {
     selectAll: `SELECT "id_singer", "singer_name", "singer_description" 
                 FROM "singer"
                 ORDER BY "id_singer"`, 
@@ -49,10 +49,10 @@ const post = async (singer) => {
     return query.rows[0];
 }
 
-const put = async (id_singer, singer) => {
+const put = async (id, singer) => {
     const query = await pool.query(
         queryString.update,
-        [singer.singer_name, singer.singer_description, id_singer]);
+        [singer.singer_name, singer.singer_description, id]);
     if(query.rows.length < 1){
         return null;
     }

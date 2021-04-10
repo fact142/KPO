@@ -16,7 +16,7 @@ singerRouter.route('/')
         try{
             const singer = {
                 singer_name: req.body.singer_name, 
-                singer_description : req.body.singer_description
+                singer_description : req.body.singer_description, 
             }
             res.send(await singerRepository.post(singer))
         }
@@ -41,7 +41,7 @@ singerRouter.route('/:id')
             const id = parseInt(req.params.id)
             const singer = {
                 singer_name: req.body.singer_name,
-                singer_description: req.body.description
+                singer_description: req.body.singer_description, 
             }
             res.send(await singerRepository.put(id, singer))
         }

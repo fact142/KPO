@@ -3,25 +3,25 @@ const { connection } = require('../configs/config')
 
 const pool = new Pool(connection);
 const queryString ={
-    selectAll: `SELECT "id_user", "user_name"
+    selectAll: `SELECT "id_user", "user_name", "user_password", "user_email"
                 FROM "user"
                 ORDER BY "id_user"`, 
-    select: `SELECT "id_user", "user_name"
+    select: `SELECT "id_user", "user_name", "user_password", "user_email"
             FROM "user"
             WHERE "id_user" = $1`,
-    selectByName: `SELECT "id_user", "user_name"
+    selectByEmail: `SELECT "id_user", "user_name", "user_password", "user_email"
                   FROM "user"
-                  WHERE "user_name" = $1`,
-    insert: `INSERT INTO "user"("user_name")
-            VALUES($1)
-            RETURNING "id_user", "user_name"`,
+                  WHERE "user_email" = $1`,
+    insert: `INSERT INTO "user"("user_name", "user_password", "user_email")
+            VALUES($1, $2, $3)
+            RETURNING "id_user", "user_name", "user_password", "user_email"`,
     update: `UPDATE "user"
-            SET "user_name" = $1
-            WHERE "id_user" = $2
-            RETURNING "id_user", "user_name"`,
+            SET "user_name" = $1, "user_password" =  $2, "user_email" = $3
+            WHERE "id_user" = $4
+            RETURNING "id_user", "user_name", "user_password", "user_email"`,
     delete: `DELETE FROM "user"
             WHERE "id_user" = $1
-            RETURNING "id_user", "user_name"`
+            RETURNING "id_user", "user_name", "user_password", "user_email"`
 }
 
 const getAll = async () => {
@@ -42,11 +42,9 @@ const get = async (id_user) => {
 const post = async (user) => {
     const query = await pool.query(
         queryString.insert,
-        [user.user_name]); 
-    if (query.rows.length < 1){
-        return null;
-    }
-    return query.rows[0];
+        [user.user_name, user.user_password, user.user_email]); 
+    
+    return query.rows;
 }
 
 const put = async (id_user, user) => {
@@ -69,17 +67,14 @@ const remove = async (id_user) => {
     return query.rows[0];
 }
 
-const getByName = async (userName) => {
+const getByEmail = async (userEmail) => {
     const query = await pool.query(
-        queryString.selectByName,
-        [userName]);
+        queryString.selectByEmail,
+        [userEmail]);
 
-    if (query.rows.length < 1){
-        return null;
-    }
-    return query.rows[0];
+    return query.rows;
 }
 
 
 
-module.exports = { getAll, get, post, put, remove, getByName }
+module.exports = { getAll, get, post, put, remove, getByEmail }

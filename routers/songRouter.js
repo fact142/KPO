@@ -18,7 +18,7 @@ songRouter.route('/')
         try{
             const song = {
                 id_album: req.body.id_album,
-                song_title: req.body.song_title, 
+                song_title: req.body.song_title,
                 duration : req.body.duration
             }
             res.send(await songRepository.post(song))

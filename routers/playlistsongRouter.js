@@ -7,8 +7,7 @@ const playlistsongRouter = Router();
 playlistsongRouter.route('/')
     .get(async (req, res) => {
         try {
-            res.send(await playlistsongRepository.getAll()) 
-            // console.log(await playlistsongRepository.selectByQuery('id_song', 20))
+            res.send(await playlistsongRepository.getAll())     
         }
         catch (err){
             console.log(err)    

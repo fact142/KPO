@@ -1,6 +1,6 @@
 const Router = require('express').Router
 const albumRepository = require('../repositories/albumRepository')
-const singerRepository = require('../repositories/singerRepository')
+
 
 const albumRouter = Router();
 albumRouter.route('/')
